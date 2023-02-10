@@ -1,0 +1,64 @@
+
+<div class="container mt-5 d-flex flex-row-reverse " >
+  <button *ngIf="authService.isAuthenticated() && authService.isInRole('Admin') "  class=" d-block mr-auto btn btn-info"  routerLink="new" >Add User </button>
+</div>
+<div class="container mt-3">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th  class="text-center" scope="col">firstName</th>
+        <th  class="text-center" scope="col">lastName</th>
+        <th  class="text-center" scope="col">email</th>
+        <th  class="text-center" scope="col">status</th>
+        <th  class="text-center" scope="col">Role</th>
+        <th class="text-center" scope="col">Actions </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" >
+        <th  class="text-center" scope="row">{{user.firstName}}</th>
+        <td  class="text-center">{{user.lastName}}</td>
+        <td  class="text-center">{{user.email}}</td>
+        <td  class="text-center">{{user.status}}</td>
+
+
+        <td  class="text-center">{{user.role}}</td>
+        <td  >
+          <div  class="d-flex justify-content-around"  >
+            <button (click)="openWindowCustomClass(content , user._id!)" class="btn btn-small btn-info" ><i class="bi bi-eye" style="color : white"></i></button>
+
+            <a  *ngIf="authService.isInRole('Admin') " [routerLink]="['edit' , user._id]" class="btn btn-small btn-warning"><i class="bi bi-pencil-square"></i></a>
+            <button *ngIf="authService.isInRole('Admin') " class="btn btn-small btn-danger" (click)="deleteUser(user._id!)"> <i class="bi bi-trash"></i> </button>
+          </div>
+
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TEST MODEL  -->
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">User : {{modalUser.firstName + ' '  + modalUser.lastName }}  </h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item  d-flex"><span class="d-inline-block w-50">First Name :</span>  {{modalUser.firstName}}</li>
+          <li class="list-group-item"><span class="d-inline-block w-50">Last Name : </span> {{modalUser.lastName}} </li>
+          <li class="list-group-item"><span class="d-inline-block w-50">Email :</span>  {{modalUser.email}} </li>
+          <li class="list-group-item"><span class="d-inline-block w-50">Status :</span>  {{modalUser.status}}  </li>
+          <li class="list-group-item"><span class="d-inline-block w-50">Role :</span>  {{modalUser.role}} </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+
+
+</div>
